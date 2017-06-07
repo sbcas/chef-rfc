@@ -1,71 +1,76 @@
 ---
 RFC: unassigned
-Title: User behaviour data from CLI tools
+Title: User behaviour data collection
 Author: Thom May <thom@chef.io>
+Author: Charles Johnson <charles@chef.io>
 Status: Draft
 Type: Informational
 ---
 
-# User behaviour data from CLI tools
+# User behaviour data collection
 
 In order to provide greater insight into how our users interact with our
-tools, this RFC introduces a framework for defining the collection, storage
-and deletion of anonymized usage data (telemetry) that can be applied to any Chef
-tools.
+tools, this RFC introduces a framework for defining the policies for the
+collection (sharing), storage, and deletion of anonymized product usage data
+that can be applied to any Chef project.
 
 ## Motivation
 
-    As an interaction designer,
-    I want to understand how our users use our tools,
+    As a UX designer at Chef,
+    I want to understand how people use Chef tools,
     so that I can improve their experience.
 
-    As a product owner,
-    I want to learn which tools and commands are most used,
+    As a product owner at Chef,
+    I want to learn which Chef tools and commands are most used,
     so I can prioritise development.
 
 ## Specification
 
-This RFC defines the core of user behaviour insight and telemetry. It does not define
-how individual apps would implement telemetry, and it is expected that
-each app would create a follow up RFC that details their behaviour and
-the types of data that would be tracked.
+This RFC defines the core of product usage data sharing. It does not define how
+individual apps will implement product usage data sharing, and it is expected
+that each app would create a follow up RFC that details individaul behaviour,
+and the types of data that will be shared with Chef Sofware.
 
 ### Opt Out by default
 
-Experience (with Habitat and Automate) has shown that opt-in responses to usage data result in very
-small (and potentially biased) sample sets. In order to gather robust data,
-our tools will send data by default. The tools will provide clear
-information to allow the user to easily opt out, and any opt out will
-apply to all Chef CLI tools. 
+Experience (with Habitat and Automate) has shown that default opt-out for 
+product usage data sharing provides sample sets that are too small (and 
+potentially biased) to draw meaningful conclusions. In order to gather 
+meaningful data, Chef tools will share anonymized usage data by default. The 
+tools will provide clear information to allow the user to easily opt-out. 
+Any workstation or client opt-out will be honored by all Chef workstation or
+client tools.
+
+Server tools may each require their own separate opt-out.
 
 ### Implementation
 
-All Chef CLI tools will use a centralized configuration to provide
-consistent behaviour data. If the configuration is not present, a
-telemetry enabled application will generate a new UUID, and create a
-well formatted configuration file. It will notify the user that data
-collection and transmission is enabled, and permit the user to easily
-opt out.
+All Chef Workstation and client tools will use a centralized configuration for
+product usage data sharing, in order to provide a consistent experience. If 
+the configuration is not present, a data-sharing-enabled application will 
+generate a new UUID, and create a well formatted configuration file. It will
+notify the user that product usage data sharing is enabled, and permit the user
+to easily opt out.
 
-All telemetry enabled applications will provide simple ways for a user
-to discover the status of data collection and transmission, and to opt
-out.
+All product usage data sharing enabled applications will provide simple ways 
+for a user to discover the status of product usage data sharing, and to opt-out.
 
 ### Privacy and Data Retention
 
 All collected data will be subject to Chef's [privacy policy](https://www.chef.io/privacy-policy/),
-which is Privacy Shield certified. Any collected data can be deleted upon request.
+which is Privacy Shield certified. Any collected data can be deleted upon
+request.
 
 ### Types of collected data
 
-Some data we envisage collecting includes:
+Some data we envisage collecting includes, but is not limited to:
 
- - Community Cookbooks and versions (in policyfiles or berkshelf)
+ - Community Cookbooks used, and versions (in policyfiles or berkshelf)
  - Kitchen plugins
  - Vagrant boxes
  - Commands and options attempted
 
-### Sample message
+### Example sample message
 
 ```json
 {
