@@ -1,8 +1,7 @@
 ---
 RFC: unassigned
 Title: User behaviour data collection
-Author: Thom May <thom@chef.io>
-Author: Charles Johnson <charles@chef.io>
+Author: Thom May <thom@chef.io>, Charles Johnson <charles@chef.io>
 Status: Draft
 Type: Informational
 ---
