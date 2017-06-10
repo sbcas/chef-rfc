@@ -1,17 +1,22 @@
 ---
 RFC: unassigned
-Title: User behaviour data collection
+Title: Anonymous user behaviour data collection
 Author: Thom May <thom@chef.io>, Charles Johnson <charles@chef.io>
 Status: Draft
 Type: Informational
 ---
 
-# User behaviour data collection
+# Anonymous user behaviour data collection
 
-In order to provide greater insight into how our users interact with our
+In order to provide greater insight into how our Chef users interact with Chef
 tools, this RFC introduces a framework for defining the policies for the
-collection (sharing), storage, and deletion of anonymized product usage data
+anonymous collection (sharing), storage, and deletion of product usage data
 that can be applied to any Chef project.
+
+## Scope
+
+This RFC only covers Chef's open source ecosystem. It does not cover closed-
+source, commercially available tools made by Chef software.
 
 ## Motivation
 
@@ -29,60 +34,64 @@ This RFC defines the core of product usage data sharing. It does not define how
 individual apps will implement product usage data sharing, and it is expected
 that each app would create a follow up RFC that details individual behaviour,
 and the types of data that will be shared with Chef Sofware.
-All data will be available publicly, so that our users understand what
-is being stored, and can review and explore the data.
 
 ### Opt Out by default
 
-Experience (with Habitat and Automate) has shown that default opt-out for 
-product usage data sharing provides sample sets that are too small (and 
-potentially biased) to draw meaningful conclusions. In order to gather 
-meaningful data, Chef tools will share anonymized usage data by default. The 
-tools will provide clear information to allow the user to easily opt-out. 
-An opt-out on an individual system will be honored by all Chef tools.
+In order to gather meaningful data, Chef tools will share anonymized usage data
+by default. Experience (with Habitat and Automate) has shown that default
+opt-out settings provide sample sets that are too small (and potentially 
+biased) to draw meaningful conclusions.  The Chef tools must provide clear 
+information so that users always know how to easily change their data sharing
+preference. Once set, any data sharing preference saved on an individual host
+will be honored by all Chef tools run on that host.
 
 Server tools may each require their own separate opt-out.
 
-### Implementation
+### High-Level Implementation
 
 All Chef tools will use a centralized configuration for product usage data
-sharing, in order to provide a consistent experience. If
-the configuration is not present, a data-sharing-enabled application will 
-create a well formatted configuration file. It will notify the user that
-product usage data sharing is enabled, and permit the user to easily opt out.
+sharing, in order to provide a consistent experience. If the configuration is
+not present, a data-sharing-enabled application will create a well-formatted
+configuration file. Upon creating the configuration file, the tool will notify
+the user that product usage data sharing is enabled, and will provide clear 
+information so that users always knowhow to easily change their data sharing
+preference.
 
 All product usage data sharing enabled applications will provide simple ways 
-for a user to discover the status of product usage data sharing, and to opt-out.
+for a user to check their data sharing preference, and to change that
+preference.
 
 ### Privacy and Data Retention
-
-To provide user privacy and protect from de-anonymization attacks while still
-gathering data that is useful for understanding our tools, Chef tools
-will choose a new UUID for each new user session, where a session is
-defined as the user not having run a Chef tool for 10 minutes. Our tools
-will not collect or store IP addresses or other data that could be used
-to identify individuals or their employers.
 
 To ensure that sensitive data is not collected, Chef tools should never
 collect option data, and tools will be able to filter more aggressively
 if required.
 
+Chef is committed to protecting user privacy and as product usage data is
+shared with Chef, it must be stored with protection from de-anonymization
+attacks in mind. All product usage data must be anonymized, and must not
+share personally identifiable information with Chef.
+
+All data storage must be compliant with EU privacy law.
+
 All collected data will be subject to Chef's [privacy policy](https://www.chef.io/privacy-policy/),
-which is Privacy Shield certified. Any collected data can be deleted upon
+which is Privacy Shield certified. Any collected data will be deleted upon
 request.
 
 ### Prior Art
 
 Many open source projects collect data from their users to help allocate
-resources. Both [Ubuntu](https://wiki.ubuntu.com/Apport) and
+resources. 
+* Both [Ubuntu](https://wiki.ubuntu.com/Apport) and
 [Fedora](https://retrace.fedoraproject.org/) collect crash dumps from their
 users, along with system information, to help developers better debug and
 improve their systems. 
-The Debian project runs [PopCon](https://popcon.debian.org/) to better
+* The Debian project runs [PopCon](https://popcon.debian.org/) to better
 understand what packages are installed and which architectures are in
 use.
-Habitat, our sister project, collects [analytics](https://www.habitat.sh/docs/about-analytics/)
+* Habitat, our sister project, collects [analytics](https://www.habitat.sh/docs/about-analytics/)
 related to user interactions.
+* Mac Homebrew collects [analytics](https://github.com/Homebrew/brew/blob/master/docs/Analytics.md) user behavior analytics.
 
 ### Types of collected data
 
