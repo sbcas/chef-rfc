@@ -15,8 +15,8 @@ that can be applied to any Chef project.
 
 ## Scope
 
-This RFC only covers Chef's open source ecosystem. It does not cover closed-
-source, commercially available tools made by Chef software.
+This RFC only covers Chef's open source ecosystem. It does not apply to proprietary,
+commercially available tools made by Chef Software.
 
 ## Motivation
 
@@ -33,14 +33,14 @@ source, commercially available tools made by Chef software.
 This RFC defines the core of product usage data sharing. It does not define how
 individual apps will implement product usage data sharing, and it is expected
 that each app would create a follow up RFC that details individual behaviour,
-and the types of data that will be shared with Chef Sofware.
+and the types of data that will be shared with Chef Software.
 
 ### Opt Out by default
 
 In order to gather meaningful data, Chef tools will share anonymized usage data
-by default. Experience (with Habitat and Automate) has shown that default
-opt-out settings provide sample sets that are too small (and potentially 
-biased) to draw meaningful conclusions.  The Chef tools must provide clear 
+by default. Experience (with Habitat and Automate) has shown that
+requiring the user to opt-in provides sample sets that are too small (and potentially
+biased) to draw meaningful conclusions.  The Chef tools must provide clear
 information so that users always know how to easily change their data sharing
 preference. Once set, any data sharing preference saved on an individual host
 will be honored by all Chef tools run on that host.
@@ -53,11 +53,11 @@ All Chef tools will use a centralized configuration for product usage data
 sharing, in order to provide a consistent experience. If the configuration is
 not present, a data-sharing-enabled application will create a well-formatted
 configuration file. Upon creating the configuration file, the tool will notify
-the user that product usage data sharing is enabled, and will provide clear 
+the user that product usage data sharing is enabled, and will provide clear
 information so that users always knowhow to easily change their data sharing
 preference.
 
-All product usage data sharing enabled applications will provide simple ways 
+All product usage data sharing enabled applications will provide simple ways
 for a user to check their data sharing preference, and to change that
 preference.
 
