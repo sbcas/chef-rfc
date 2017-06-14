@@ -35,17 +35,17 @@ individual apps will implement product usage data sharing, and it is expected
 that each app would create a follow up RFC that details individual behaviour,
 and the types of data that will be shared with Chef Software.
 
-### Opt Out by default
+### Sharing by default
 
 In order to gather meaningful data, Chef tools will share anonymized usage data
-by default. Experience (with Habitat and Automate) has shown that
-requiring the user to opt-in provides sample sets that are too small (and potentially
+by default. Experience (with Habitat and Automate) has shown that disabling
+sharing by default provides sample sets that are too small (and potentially
 biased) to draw meaningful conclusions.  The Chef tools must provide clear
 information so that users always know how to easily change their data sharing
 preference. Once set, any data sharing preference saved on an individual host
 will be honored by all Chef tools run on that host.
 
-Server tools may each require their own separate opt-out.
+Server tools may each require their own separate data sharing preference.
 
 ### High-Level Implementation
 
@@ -64,8 +64,11 @@ preference.
 ### Privacy and Data Retention
 
 To ensure that sensitive data is not collected, Chef tools should never
-collect option data, and tools will be able to filter more aggressively
-if required.
+collect parameters passed to command-line options, and tools will be able to
+filter more aggressively if required.
+
+For example, knife may report that a `-P` option was invoked, but will never
+collect the password parameter that was passed to that option.
 
 Chef is committed to protecting user privacy and as product usage data is
 shared with Chef, it must be stored with protection from de-anonymization
@@ -91,7 +94,7 @@ understand what packages are installed and which architectures are in
 use.
 * Habitat, our sister project, collects [analytics](https://www.habitat.sh/docs/about-analytics/)
 related to user interactions.
-* Mac Homebrew collects [analytics](https://github.com/Homebrew/brew/blob/master/docs/Analytics.md) user behavior analytics.
+* Mac Homebrew collects user behavior [analytics](https://github.com/Homebrew/brew/blob/master/docs/Analytics.md).
 
 ### Types of collected data
 
