@@ -86,6 +86,12 @@ All collected data will be subject to Chef's [privacy policy](https://www.chef.i
 which is Privacy Shield certified. Any collected data will be deleted upon
 request.
 
+### Access to data
+
+So that all developers can make use of the gathered data set, Chef will make
+available query mechanisms in a way that's compliant with our Privacy
+Policy and our responsibilities under the GDPR and similar legislation.
+
 ### Prior Art
 
 Many open source projects collect data from their users to help allocate
