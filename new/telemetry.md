@@ -31,8 +31,8 @@ commercially available tools made by Chef Software.
 ## Specification
 
 This RFC defines the core of product usage data sharing. It does not define how
-individual apps will implement product usage data sharing, and it is expected
-that each app would create a follow up RFC that details individual behaviour,
+individual apps will implement product usage data sharing; any app that
+wishes to do so MUST create a follow up RFC that details individual behaviour,
 and the types of data that will be shared with Chef Software.
 
 ### Sharing by default
@@ -47,6 +47,8 @@ will be honored by all Chef tools run on that host.
 
 Server tools may each require their own separate data sharing preference.
 
+The Chef Client will never collect or share telemetry.
+
 ### High-Level Implementation
 
 All Chef tools will use a centralized configuration for product usage data
@@ -56,6 +58,9 @@ configuration file. Upon creating the configuration file, the tool will notify
 the user that product usage data sharing is enabled, and will provide clear
 information so that users always knowhow to easily change their data sharing
 preference.
+
+Tools should provide a command that allows a user to see and understand
+what data the tool is collecting and reporting.
 
 All product usage data sharing enabled applications will provide simple ways
 for a user to check their data sharing preference, and to change that
@@ -104,6 +109,7 @@ Some data we envisage collecting includes, but is not limited to:
  - Kitchen plugins
  - Vagrant boxes
  - Commands and options attempted
+ - Versions of chef and other tools used
 
 ### Examples
 
