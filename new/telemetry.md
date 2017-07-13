@@ -66,7 +66,32 @@ All product usage data sharing enabled applications will provide simple ways
 for a user to check their data sharing preference, and to change that
 preference.
 
+### Client Library Implementation
+
+Since most Chef client applications are ruby based, a common gem will be
+produced to deliver telemetry data to the receivers.
+
+The gem will handle:
+  * sessions - decision on when to create a new session, rolling session
+  keys
+  * retries - delivery of events will be retried, with exponential back
+  off, a number of times before telemetry delivery is disabled for the
+  duration of the process.
+  * opt out - checking and setting of user opt out status.
+  * storing and forwarding of events - if a process would complete before any events
+  are sent, the library is responsible for storing the events, and
+  resending any further events at a suitable time in the future. Fresh
+  events will be prioritised over older ones.
+
+To avoid blocking the application, the entire library will be built to
+use asynchronous operations, likely using the Concurrent Ruby library.
+
 ### Privacy and Data Retention
+
+To provide user privacy and protect from de-anonymization attacks while still
+gathering data that is useful for understanding our tools, Chef tools
+will choose a new UUID for each new user session, where a session is
+defined as the user not having run a Chef tool for 10 minutes.
 
 To ensure that sensitive data is not collected, Chef tools should never
 collect parameters passed to command-line options, and tools will be able to
