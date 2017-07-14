@@ -45,6 +45,16 @@ information so that users always know how to easily change their data sharing
 preference. Once set, any data sharing preference saved on an individual host
 will be honored by all Chef tools run on that host.
 
+We will implement a noun in the Chef DK, `chef telemetry`, that will
+allow users to check their opt out status and easily opt out, for
+instance with `chef telemetry status` and `chef telemetry disable`,
+respectively.
+
+A user may opt-out globally by touching `~/.chef/telemetry_opt_out` or
+by using the above command, or may do so in a repository or working tree
+specific way by touching `.chef/telemetry_opt_out`, which will be
+searched for by tools in the same way as for chef config.
+
 Server tools may each require their own separate data sharing preference.
 
 The Chef Client will never collect or share telemetry.
@@ -78,20 +88,26 @@ The gem will handle:
   off, a number of times before telemetry delivery is disabled for the
   duration of the process.
   * opt out - checking and setting of user opt out status.
-  * storing and forwarding of events - if a process would complete before any events
+  * (in the future) storing and forwarding of events - if a process would complete before any events
   are sent, the library is responsible for storing the events, and
   resending any further events at a suitable time in the future. Fresh
-  events will be prioritised over older ones.
+  events will be prioritised over older ones. For v1, it is acceptable
+  to just throw away events that we couldn't send.
 
 To avoid blocking the application, the entire library will be built to
 use asynchronous operations, likely using the Concurrent Ruby library.
+
+Session management will be provided to ensure that we protect user's
+privacy by sending anonymous events, but also to allow developers to
+understand all the steps of an interaction. The library will ensure that
+a session ID times out after 10 minutes of inactivity, whilst providing
+the same ID to all clients used during the same time period.
 
 ### Privacy and Data Retention
 
 To provide user privacy and protect from de-anonymization attacks while still
 gathering data that is useful for understanding our tools, Chef tools
-will choose a new UUID for each new user session, where a session is
-defined as the user not having run a Chef tool for 10 minutes.
+will choose a new UUID for each new user session.
 
 To ensure that sensitive data is not collected, Chef tools should never
 collect parameters passed to command-line options, and tools will be able to
@@ -150,13 +166,13 @@ Some data we envisage collecting includes, but is not limited to:
   "message_version":1.0,
   "payload_version":1.0,
   "license_id":"00000000-0000-0000-0000-000000000000",
+  "session_id":"2d5a4d61-d79a-4ff9-aa71-a403c2d5a001",
   "origin": "command-line",
   "type": "track",
   "product": "chefdk",
   "timestamp": "2017-02-06T17:25:42   Z",
   "payload":{  
      "event":"user-command",
-	 "anonymousId":"2d5a4d61-d79a-4ff9-aa71-a403c2d5a001",
      "properties":{  
         "command": "chef generate cookbook",
         "timestamp": "2017-02-06T17:25:42   Z"
